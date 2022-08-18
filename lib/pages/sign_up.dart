@@ -70,7 +70,7 @@ class _SignUpState extends State<SignUp> {
                 alignment: Alignment.center,
                 child: Image.asset(
                   "assets/images/reg_ill.png",
-                  height: 150,
+                  height: size.height / 6,
                   fit: BoxFit.fill,
                 ),
               ),
@@ -78,7 +78,7 @@ class _SignUpState extends State<SignUp> {
                 height: 30,
               ),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 50),
+                padding: EdgeInsets.symmetric(horizontal: size.width / 13),
                 child: Form(
                   key: _formKey,
                   child: Column(
@@ -352,7 +352,7 @@ class _SignUpState extends State<SignUp> {
                         height: 20,
                       ),
                       Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text("Already have account?"),
                             TextButton(

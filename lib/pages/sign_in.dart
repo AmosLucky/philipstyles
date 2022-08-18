@@ -77,7 +77,7 @@ class _SignInState extends State<SignIn> {
                 alignment: Alignment.center,
                 child: Image.asset(
                   "assets/images/login_ill2.png",
-                  height: 200,
+                  height: size.height / 4,
                   fit: BoxFit.fill,
                 ),
               ),
@@ -85,7 +85,7 @@ class _SignInState extends State<SignIn> {
                 height: 30,
               ),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 50),
+                padding: EdgeInsets.symmetric(horizontal: size.width / 12),
                 child: Form(
                   key: _formKey,
                   child: Column(
@@ -216,7 +216,7 @@ class _SignInState extends State<SignIn> {
                         height: 20,
                       ),
                       Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text("Already have account?"),
                             TextButton(

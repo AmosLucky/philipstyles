@@ -23,7 +23,7 @@ var iOSAppId = "";
 var nairaSign = "₦";
 
 String addCommer(String price) {
-  var f = NumberFormat("###,###.0#", "en_US");
+  var f = NumberFormat("###,####", "en_US");
   return f.format(int.parse(price)).toString();
 }
 

@@ -46,6 +46,7 @@ dependencies:
   share: ^2.0.4
   url_launcher:
   intl: ^0.17.0
+  flutter_staggered_animations:
   
   flutter_staggered_grid_view: ^0.6.1
   flutter_paystack:
@@ -61,7 +62,8 @@ dependencies:
 flutter_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/images/favicon.png "  
+  remove_alpha_ios: true
+  image_path: "assets/images/favicon.png"  
 
 dev_dependencies:
   flutter_test:

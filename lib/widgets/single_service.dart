@@ -99,8 +99,7 @@ class SingleItem extends StatelessWidget {
                                     ///margin: EdgeInsets.only(left: 19),
                                     child: Text(
                                       nairaSign +
-                                          addCommer(
-                                              serviceModel.service_price!),
+                                          addCommer(serviceModel.lower_price!),
                                       style: TextStyle(
                                           fontFamily: "",
                                           fontWeight: FontWeight.bold),

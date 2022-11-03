@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cleaners_app/constant.dart';
 import 'package:cleaners_app/model/service_model.dart';
 import 'package:cleaners_app/pages/service_details.dart';
@@ -55,7 +56,7 @@ class _HomeBannerState extends State<HomeBanner> {
               borderRadius: BorderRadius.circular(5.0),
               image: DecorationImage(
                   fit: BoxFit.fill,
-                  image: NetworkImage(
+                  image: CachedNetworkImageProvider(
                     widget.serviceModel!.service_picture!,
                   ))),
           margin: const EdgeInsets.all(20.0),
@@ -106,7 +107,7 @@ class _HomeBannerState extends State<HomeBanner> {
                       Text(
                         "Starting from " +
                             nairaSign +
-                            addCommer(widget.serviceModel!.service_price!) +
+                            addCommer(widget.serviceModel!.lower_price!) +
                             " only!",
                         style: TextStyle(
                             color: whitColor,

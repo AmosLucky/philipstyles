@@ -234,7 +234,8 @@ class _PaymentPage extends State<PaymentPage> {
                                           addCommer(widget
                                               .serviceModel.service_price!),
                                       style: TextStyle(
-                                          fontWeight: FontWeight.bold),
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
                                     ),
                                   ],
                                 ),
@@ -288,6 +289,7 @@ class _PaymentPage extends State<PaymentPage> {
                                 ),
 
                                 Container(
+                                  margin: EdgeInsets.only(top: 20),
                                   width: double.infinity,
                                   child: _getPlatformButton('Checkout', () {
                                     if (userModel.id == null) {

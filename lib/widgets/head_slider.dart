@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cleaners_app/model/service_model.dart';
 import 'package:cleaners_app/pages/service_details.dart';
@@ -80,7 +81,7 @@ class _HeadSliderState extends State<HeadSlider> {
                         // borderRadius: BorderRadius.circular(5.0),
                         image: DecorationImage(
                             fit: BoxFit.fill,
-                            image: NetworkImage(
+                            image: CachedNetworkImageProvider(
                               item.service_picture!,
                             ))),
                     child: Banner(
@@ -123,7 +124,7 @@ class _HeadSliderState extends State<HeadSlider> {
                                 minimizeLength(
                                     "For just " +
                                         nairaSign +
-                                        addCommer(item.service_price!) +
+                                        addCommer(item.lower_price!) +
                                         " only!",
                                     ""),
                                 style: TextStyle(

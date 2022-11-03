@@ -2,9 +2,11 @@ import 'package:cleaners_app/constants.dart';
 import 'package:cleaners_app/model/service_model.dart';
 import 'package:cleaners_app/widgets/image_loader.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_paystack/flutter_paystack.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../utils/utils.dart';
 import 'payment_page.dart';
 
 class ServiceDetails extends StatefulWidget {
@@ -77,15 +79,18 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      child: Row(
-                        children: [
-                          Icon(Icons.layers),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Text(serviceModel.category!),
-                        ],
+                    Visibility(
+                      visible: false,
+                      child: Container(
+                        child: Row(
+                          children: [
+                            Icon(Icons.layers),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Text(serviceModel.category!),
+                          ],
+                        ),
                       ),
                     ),
                     Visibility(
@@ -99,6 +104,12 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                             SizedBox(
                               width: 20,
                             ),
+                            Text(
+                              nairaSign + addCommer(serviceModel.lower_price!),
+                              style: TextStyle(
+                                  fontSize: 22, fontWeight: FontWeight.bold),
+                            ),
+                            Text(" - "),
                             Text(
                               nairaSign +
                                   addCommer(serviceModel.service_price!),
@@ -119,8 +130,10 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                       height: 20,
                     ),
                     Visibility(
-                      visible:
-                          serviceModel.service_price != null ? true : false,
+                      visible: serviceModel.service_price == null ||
+                              int.parse(serviceModel.service_price!) == 0
+                          ? false
+                          : true,
                       child: Container(
                         height: 50,
                         width: size.width / 1.3,
@@ -195,7 +208,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                               ),
                             ),
                             SizedBox(
-                              width: 10,
+                              width: 5,
                             ),
                             Expanded(
                               child: MaterialButton(
@@ -289,11 +302,26 @@ class _ServiceDetailsState extends State<ServiceDetails> {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text("Acc Name :" + companyModel.company_account_name!),
+          accountDetailsRow("Bank :", companyModel.bank!),
           SizedBox(
             height: 10,
           ),
-          Text("Acc No :" + companyModel.company_account_number!)
+          GestureDetector(
+              onHorizontalDragStart: (v) async {
+                await Clipboard.setData(
+                    ClipboardData(text: companyModel.company_account_number!));
+                showSnackBar(
+                    context, "Copied! " + companyModel.company_account_number!);
+              },
+              child: accountDetailsRow(
+                  "Acc No :", companyModel.company_account_number!)),
+          SizedBox(
+            height: 10,
+          ),
+          accountDetailsRow("Acc Name :", companyModel.company_account_name!),
+          // Text("Acc Name :" + companyModel.company_account_name!),
+
+          // Text("Acc No :" + companyModel.company_account_number!)
         ],
       ),
       actions: [
@@ -308,6 +336,18 @@ class _ServiceDetailsState extends State<ServiceDetails> {
       builder: (BuildContext context) {
         return alert;
       },
+    );
+  }
+
+  Widget accountDetailsRow(String key, String value) {
+    return Row(
+      children: [
+        Container(width: 100, child: Text(key)),
+        SizedBox(
+          width: 10,
+        ),
+        Expanded(child: Text(value))
+      ],
     );
   }
 }

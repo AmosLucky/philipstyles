@@ -19,6 +19,7 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  bool isLoading = false;
   SharedPreferences? sharedPreferences;
   var username = "";
   var password = "";
@@ -191,6 +192,12 @@ class _SignInState extends State<SignIn> {
                               ),
                             )
                           : Container(),
+                      Visibility(
+                          visible: isLoading,
+                          child: Container(
+                            margin: EdgeInsets.only(top: 10),
+                            child: LinearProgressIndicator(),
+                          )),
                       SizedBox(
                         height: 30,
                       ),
@@ -203,6 +210,9 @@ class _SignInState extends State<SignIn> {
                             erro_msg = "";
                             setState(() {});
                             if (validate()) {
+                              setState(() {
+                                isLoading = true;
+                              });
                               //_formKey.currentState!.save();
                               signIn(username, password);
                             }
@@ -267,6 +277,7 @@ class _SignInState extends State<SignIn> {
         sharedPreferences = await SharedPreferences.getInstance();
         sharedPreferences!.setString("username", username);
         sharedPreferences!.setString("password", password);
+        isLoading = false;
         navigator();
       } else {
         erro_msg = "Incorrect sername or password";
@@ -275,6 +286,7 @@ class _SignInState extends State<SignIn> {
     } else {
       erro_msg = "Internet error: please check your internet connection";
       setState(() {});
+      isLoading = false;
     }
   }
 }

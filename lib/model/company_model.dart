@@ -7,7 +7,8 @@ class CompanyModel {
       stable_version,
       company_account_name,
       company_account_number,
-      paystack_api_key;
+      paystack_api_key,
+      bank;
   CompanyModel(
       {this.id,
       this.address,
@@ -17,7 +18,8 @@ class CompanyModel {
       this.stable_version,
       this.company_account_name,
       this.company_account_number,
-      this.paystack_api_key});
+      this.paystack_api_key,
+      this.bank});
   factory CompanyModel.fromJSON(Map<String, dynamic> company) {
     return CompanyModel(
         id: company['id'],
@@ -28,6 +30,7 @@ class CompanyModel {
         stable_version: company['stable_version'],
         company_account_name: company["company_account_name"],
         company_account_number: company["company_account_number"],
-        paystack_api_key: company["paystack_api_key"]);
+        paystack_api_key: company["paystack_api_key"],
+        bank: company['bank']);
   }
 }

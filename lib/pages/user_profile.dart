@@ -9,6 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../utils/logout.dart';
+import '../utils/utils.dart';
+
 class UserProfile extends StatefulWidget {
   const UserProfile({Key? key}) : super(key: key);
 
@@ -413,6 +416,18 @@ class _MprofileState extends State<Mprofile> {
                                   icon: Icons.location_on,
                                   text: userModel.address!),
                             ],
+                          )),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Divider(),
+                      TextButton(
+                          onPressed: () {
+                            deleteDialog(context);
+                          },
+                          child: Text(
+                            "Delete Accout",
+                            style: TextStyle(color: Colors.red),
                           ))
                     ],
                   ),
@@ -451,6 +466,50 @@ class _MprofileState extends State<Mprofile> {
           ],
         ),
       ),
+    );
+  }
+
+  deleteDialog(BuildContext context) {
+    // set up the button
+    Widget okButton = TextButton(
+      child: Text("Confirm"),
+      onPressed: () async {
+        var request = await http.post(
+            Uri.parse(root_domain + "delete_user.php"),
+            body: {"delete_user": "delete_user", "user_id": userModel.id});
+
+        if (request.statusCode == 200) {
+          showSnackBar(context, "Successfully Deleted");
+        } else {
+          showSnackBar(context, "Something went wrong");
+        }
+
+        setState(() {});
+        Navigator.pop(context);
+        logOut(userModel, context);
+      },
+    );
+
+    Widget cancleButton = TextButton(
+      child: Text("Cancel"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Confirm Delete"),
+      content: Text("Are you sure you want to delete this account"),
+      actions: [okButton, cancleButton],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }

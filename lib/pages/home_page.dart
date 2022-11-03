@@ -9,6 +9,7 @@ import 'package:cleaners_app/pages/contact_us.dart';
 import 'package:cleaners_app/pages/sign_in.dart';
 import 'package:cleaners_app/pages/signout_view.dart';
 import 'package:cleaners_app/pages/single_category.dart';
+import 'package:cleaners_app/utils/logout.dart';
 import 'package:cleaners_app/widgets/banner_widget.dart';
 import 'package:cleaners_app/widgets/head_slider.dart';
 import 'package:cleaners_app/widgets/single_service.dart';
@@ -152,19 +153,7 @@ class _HomePageState extends State<HomePage> {
                       } else if (!snapshot.hasData) {
                         Size size = MediaQuery.of(context).size;
                         return Center(
-                          child: ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: 6,
-                              itemBuilder: (c, i) {
-                                return Container(
-                                  color: Colors.amber[50],
-                                  width: size.width / 1.8,
-                                  height: 250,
-                                  margin: EdgeInsets.all(5),
-
-                                  ///child: ,
-                                );
-                              }),
+                          child: CircularProgressIndicator(),
                         );
                       }
 
@@ -197,12 +186,24 @@ class _HomePageState extends State<HomePage> {
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 color: primaryColor,
+                child: Image.asset(
+                  "assets/images/flyer1.jpg",
+                  width: double.infinity,
+                  fit: BoxFit.fill,
+                ),
               )),
           ListTile(
             leading: Icon(Icons.home, color: primaryColor),
             title: title("Home"),
             onTap: () {
               Navigator.pushNamed(context, "/MainPage");
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.list, color: primaryColor),
+            title: title("Categories"),
+            onTap: () {
+              Navigator.pushNamed(context, "/Categories");
             },
           ),
           ListTile(
@@ -244,15 +245,7 @@ class _HomePageState extends State<HomePage> {
               leading: Icon(Icons.logout, color: primaryColor),
               title: title("Logout"),
               onTap: () async {
-                SharedPreferences sharedPreferences =
-                    await SharedPreferences.getInstance();
-                sharedPreferences.remove("username");
-                sharedPreferences.remove("password");
-
-                userModel = new UserModel();
-                var route =
-                    MaterialPageRoute(builder: (BuildContext) => SignIn());
-                Navigator.push(context, route);
+                logOut(userModel, context);
 
                 // Navi
               },

@@ -5,18 +5,29 @@ import 'dart:io';
 import 'package:cleaners_app/constant.dart';
 import 'package:cleaners_app/model/order_model.dart';
 import 'package:cleaners_app/model/user_model.dart';
+import 'package:cleaners_app/pages/categories.dart';
 import 'package:cleaners_app/pages/home_page.dart';
 import 'package:cleaners_app/pages/main_page.dart';
 import 'package:cleaners_app/pages/sign_in.dart';
 import 'package:cleaners_app/pages/sign_up.dart';
 import 'package:cleaners_app/pages/user_profile.dart';
 import 'package:flutter/material.dart';
+import 'package:http/io_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 import 'package:http/http.dart' as http;
 
 import 'constants.dart';
 import 'pages/orders.dart';
+
+var headers = {
+  "Access-Control-Allow-Origin": "*", // Required for CORS support to work
+  "Access-Control-Allow-Credentials":
+      "true", // Required for cookies, authorization headers with HTTPS
+  "Access-Control-Allow-Headers":
+      "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
+  "Access-Control-Allow-Methods": "POST, OPTIONS"
+};
 
 void main() {
   //HttpOverrides.global = MyHttpOverrides();
@@ -38,7 +49,8 @@ class MyApp extends StatelessWidget {
         '/Register': (ctx) => SignUp(),
         '/Home': (ctx) => HomePage(),
         '/SingnUp': (ctx) => SignUp(),
-        '/SingnIn': (ctx) => SignIn()
+        '/SingnIn': (ctx) => SignIn(),
+        '/Categories': (ctx) => Categories()
         //'/Redeem': (ctx) => Redeem(),
         //'/Welcome': (ctx) => WelcomePage(),
         //'/ForgetPassword': (ctx) => ForgetPassword(),
@@ -120,8 +132,15 @@ class _SplashScreenState extends State<SplashScreen>
     _sharedPreferences = await SharedPreferences.getInstance();
     Uri uri = Uri.parse(root_domain + "login.php");
     print(uri);
-    var resquest = await http.post(uri,
-        body: {"username": username, "password": password, "login": "login"});
+    HttpClient client = new HttpClient()
+      ..badCertificateCallback =
+          ((X509Certificate cert, String host, int port) => true);
+    var ioClient = new IOClient(client);
+    http.Response resquest = await ioClient.post(uri,
+        body: {"username": username, "password": password, "login": "login"},
+        headers: headers);
+    // var resquest = await http.post(uri,
+    //     body: {"username": username, "password": password, "login": "login"});
     // print(resquest.statusCode);
     if (resquest.statusCode == 200) {
       var response = jsonDecode(resquest.body);
@@ -155,24 +174,21 @@ class _SplashScreenState extends State<SplashScreen>
 
   fetchContent() async {
     print("here");
-    var resquest = await http.post(
-      Uri.parse(
-        root_domain + "fetch_content.php",
-      ),
-      body: {"fetch_content": "fetch_content"},
-      headers: {
-        "Access-Control-Allow-Origin": "*", // Required for CORS support to work
-        "Access-Control-Allow-Credentials":
-            "true", // Required for cookies, authorization headers with HTTPS
-        "Access-Control-Allow-Headers":
-            "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
-        "Access-Control-Allow-Methods": "POST, OPTIONS"
-      },
-    );
+    HttpClient client = new HttpClient()
+      ..badCertificateCallback =
+          ((X509Certificate cert, String host, int port) => true);
+    var ioClient = new IOClient(client);
+    var resquest = await ioClient.post(
+        Uri.parse(
+          root_domain + "fetch_content.php",
+        ),
+        body: {"fetch_content": "fetch_content"},
+        headers: headers);
     //print(resquest.statusCode);
     if (resquest.statusCode == 200) {
       print("200");
       var response = jsonDecode(resquest.body);
+      print(response);
       if (response['status']) {
         _sharedPreferences = await SharedPreferences.getInstance();
         _sharedPreferences!.setString("data", jsonEncode(response['data']));

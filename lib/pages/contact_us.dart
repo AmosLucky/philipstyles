@@ -45,28 +45,32 @@ class _ContactUsState extends State<ContactUs> {
                                 SingleData(
                                     size: size,
                                     icon: Icons.phone,
-                                    text: companyModel.phone_number!),
+                                    text: companyModel.phone_number!,
+                                    context: context),
                                 Divider(
                                   color: Colors.grey,
                                 ),
                                 SingleData(
                                     size: size,
                                     icon: Icons.email,
-                                    text: companyModel.company_email!),
+                                    text: companyModel.company_email!,
+                                    context: context),
                                 Divider(
                                   color: Colors.grey,
                                 ),
                                 SingleData(
                                     size: size,
                                     icon: Icons.message,
-                                    text: companyModel.whatsapp_number),
+                                    text: companyModel.whatsapp_number,
+                                    context: context),
                                 Divider(
                                   color: Colors.grey,
                                 ),
                                 SingleData(
                                     size: size,
                                     icon: Icons.location_on,
-                                    text: companyModel.address!),
+                                    text: companyModel.address!,
+                                    context: context),
                               ],
                             ))
                       ],

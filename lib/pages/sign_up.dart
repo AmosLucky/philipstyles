@@ -57,6 +57,7 @@ class _SignUpState extends State<SignUp> {
     var size = MediaQuery.of(context).size;
     return Scaffold(
       // backgroundColor: Colors.grey[200],
+      
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.all(12),

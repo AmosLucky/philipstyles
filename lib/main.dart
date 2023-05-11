@@ -213,6 +213,7 @@ class _SplashScreenState extends State<SplashScreen>
       isErro = true;
       setState(() {});
       print("erro");
+      print(resquest.statusCode);
     }
   }
 

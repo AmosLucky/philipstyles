@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cleaners_app/constants.dart';
 import 'package:cleaners_app/model/service_model.dart';
 import 'package:cleaners_app/widgets/image_loader.dart';
@@ -212,9 +214,20 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                             ),
                             Expanded(
                               child: MaterialButton(
-                                onPressed: () {
-                                  launch(
-                                      "mailto:" + companyModel.company_email!);
+                                onPressed: () async {
+                                  // _launchUrl(
+                                  //     "mailto:" + companyModel.company_email!)
+                                  // ;
+
+                                  final Uri emailLaunchUri = Uri(
+                                    scheme: 'mailto',
+                                    path: companyModel.company_email!,
+                                    queryParameters: {
+                                      'subject': '',
+                                      'body': ''
+                                    },
+                                  );
+                                  launchUrl(emailLaunchUri);
                                 },
                                 child: Text("Mail us"),
                                 textColor: whitColor,
@@ -238,7 +251,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                               width: size.width / 5,
                               child: MaterialButton(
                                 onPressed: () {
-                                  launch("tel:" + companyModel.phone_number!);
+                                  _makePhoneCall(companyModel.phone_number!);
                                 },
                                 child: Icon(Icons.phone),
                                 textColor: primaryColor,
@@ -250,10 +263,8 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                             ),
                             Expanded(
                               child: MaterialButton(
-                                onPressed: () {
-                                  launch("https://wa.me/" +
-                                      companyModel.whatsapp_number! +
-                                      "/?text=");
+                                onPressed: () async {
+                                 
                                 },
                                 child: Text("Chat On Whatsapp"),
                                 textColor: whitColor,
@@ -274,6 +285,25 @@ class _ServiceDetailsState extends State<ServiceDetails> {
     );
   }
 
+  String url(phone,message) {
+    if (Platform.isAndroid) {
+      // add the [https]
+      return "https://wa.me/$phone/?text=${Uri.parse(message)}"; // new line
+    } else {
+      // add the [https]
+      return "https://api.whatsapp.com/send?phone=$phone=${Uri.parse(message)}"; // new line
+    }
+  }
+
+
+  Future<void> _makePhoneCall(String phoneNumber) async {
+    final Uri launchUri = Uri(
+      scheme: 'tel',
+      path: phoneNumber,
+    );
+    await launchUrl(launchUri);
+  }
+
   showAlertDialog(BuildContext context) {
     // set up the button
     Widget okButton = TextButton(
@@ -289,7 +319,8 @@ class _ServiceDetailsState extends State<ServiceDetails> {
         style: TextStyle(fontWeight: FontWeight.bold),
       ),
       onPressed: () {
-        launch("https://wa.me/" + companyModel.whatsapp_number! + "/?text=");
+        _launchUrl(
+            "https://wa.me/" + companyModel.whatsapp_number! + "/?text=");
       },
     );
 
@@ -337,6 +368,13 @@ class _ServiceDetailsState extends State<ServiceDetails> {
         return alert;
       },
     );
+  }
+
+  Future<void> _launchUrl(url) async {
+    var _url = Uri.parse(url);
+    if (!await launchUrl(_url)) {
+      throw Exception('Could not launch $_url');
+    }
   }
 
   Widget accountDetailsRow(String key, String value) {

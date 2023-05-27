@@ -36,14 +36,15 @@ class _ServiceDetailsState extends State<ServiceDetails> {
           width: 30,
         ),
         onPressed: () {
-          launch("https://wa.me/+234" +
-              companyModel.whatsapp_number! +
-              "/?text= i want to book for your service \n Title: " +
-              serviceModel.service_title! +
-              "\n Price :N" +
-              serviceModel.service_price! +
-              " \n Category :" +
-              serviceModel.category!);
+          whatsapp();
+          // launch("https://wa.me/+234" +
+          //     companyModel.whatsapp_number! +
+          //     "/?text= i want to book for your service \n Title: " +
+          //     serviceModel.service_title! +
+          //     "\n Price :N" +
+          //     serviceModel.service_price! +
+          //     " \n Category :" +
+          //     serviceModel.category!);
         },
       ),
       appBar: AppBar(
@@ -264,7 +265,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                             Expanded(
                               child: MaterialButton(
                                 onPressed: () async {
-                                 
+                                  whatsapp();
                                 },
                                 child: Text("Chat On Whatsapp"),
                                 textColor: whitColor,
@@ -285,16 +286,22 @@ class _ServiceDetailsState extends State<ServiceDetails> {
     );
   }
 
-  String url(phone,message) {
-    if (Platform.isAndroid) {
-      // add the [https]
-      return "https://wa.me/$phone/?text=${Uri.parse(message)}"; // new line
-    } else {
-      // add the [https]
-      return "https://api.whatsapp.com/send?phone=$phone=${Uri.parse(message)}"; // new line
+  whatsapp() async {
+    var contact = companyModel.whatsapp_number!;
+    var androidUrl = "whatsapp://send?phone=$contact&text=Hi, I need some help";
+    var iosUrl =
+        "https://wa.me/$contact?text=${Uri.parse('Hi, I need some help')}";
+
+    try {
+      if (Platform.isIOS) {
+        await launchUrl(Uri.parse(iosUrl));
+      } else {
+        await launchUrl(Uri.parse(androidUrl));
+      }
+    } on Exception {
+      //EasyLoading.showError('WhatsApp is not installed.');
     }
   }
-
 
   Future<void> _makePhoneCall(String phoneNumber) async {
     final Uri launchUri = Uri(

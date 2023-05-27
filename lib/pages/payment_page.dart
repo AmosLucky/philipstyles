@@ -178,16 +178,7 @@ class _PaymentPage extends State<PaymentPage> {
                 ),
                 _verticalSizeBox,
                 Theme(
-                  data: Theme.of(context).copyWith(
-                    accentColor: green,
-                    primaryColorLight: Colors.white,
-                    primaryColorDark: navyBlue,
-                    textTheme: Theme.of(context).textTheme.copyWith(
-                          bodyText2: TextStyle(
-                            color: lightBlue,
-                          ),
-                        ),
-                  ),
+                  data: Theme.of(context).copyWith(),
                   child: Builder(
                     builder: (context) {
                       return _inProgress

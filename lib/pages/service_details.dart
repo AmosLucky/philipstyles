@@ -288,9 +288,13 @@ class _ServiceDetailsState extends State<ServiceDetails> {
 
   whatsapp() async {
     var contact = companyModel.whatsapp_number!;
-    var androidUrl = "whatsapp://send?phone=$contact&text="+widget.serviceModel.service_title!;
+// <<<<<<< HEAD
+//     var androidUrl = "whatsapp://send?phone=$contact&text="+widget.serviceModel.service_title!;
+// =======
+    var androidUrl = "whatsapp://send?phone=$contact&text=I want to equire on: "+widget.serviceModel.service_title;
+
     var iosUrl =
-        "https://wa.me/$contact?text=${Uri.parse('Hi, I need some help')}";
+        "https://wa.me/$contact?text=${Uri.parse('I want to equire on: '+widget.serviceModel.service_title)}";
 
     try {
       if (Platform.isIOS) {

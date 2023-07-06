@@ -329,7 +329,53 @@ class _PaymentPage extends State<PaymentPage> {
                                                 return "phone number too short";
                                               }
                                             },
+                                          ),
+                                          /////////
+                                          Divider(),
+
+                                          Text(
+                                            "Select price",
+                                            style: TextStyle(),
+                                          ),
+
+                                          // Text(
+                                          //   nairaSign +
+                                          //       " " +
+                                          // addCommer(widget
+                                          //     .serviceModel.service_price!),
+                                          //   style: TextStyle(
+                                          //       fontWeight: FontWeight.bold,
+                                          //       fontSize: 20),
+                                          // ),
+
+                                          DropdownButton<String>(
+                                            isExpanded: true,
+                                            value: dropdownvalue,
+                                            items: <String>[
+                                              nairaSign +
+                                                  addCommer(widget.serviceModel
+                                                      .service_price!),
+                                              nairaSign +
+                                                  addCommer(widget.serviceModel
+                                                      .lower_price!)
+                                            ].map((String value) {
+                                              return DropdownMenuItem<String>(
+                                                alignment: Alignment.center,
+                                                value: value,
+                                                child: Text(
+                                                  value,
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                              );
+                                            }).toList(),
+                                            onChanged: (value) {
+                                              setState(() {
+                                                dropdownvalue = value!;
+                                                setPrice(value);
+                                              });
+                                            },
                                           )
+                                          //////
                                         ]),
                                       )),
                                 ),

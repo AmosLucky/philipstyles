@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_new
+
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
@@ -56,6 +58,8 @@ class _PaymentPage extends State<PaymentPage> {
 
   final plugin = PaystackPlugin();
   int? amount;
+  String dropdownvalue = "";
+  String paidPrice = "";
 
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -75,19 +79,33 @@ class _PaymentPage extends State<PaymentPage> {
     init();
   }
 
+  setPrice(value) {
+    if (value == nairaSign + addCommer(widget.serviceModel.service_price!)) {
+      amount = int.parse(widget.serviceModel.service_price!) * 100;
+      paidPrice = widget.serviceModel.service_price!;
+    } else {
+      amount = int.parse(widget.serviceModel.lower_price!) * 100;
+      paidPrice = widget.serviceModel.lower_price!;
+    }
+    print(amount);
+    print(amount);
+  }
+
   bool isInitialized = false;
 
   void init() {
+    dropdownvalue = nairaSign + addCommer(widget.serviceModel.service_price!);
+    paidPrice = widget.serviceModel.service_price!;
     Timer(Duration(seconds: 1), () {
       if (userModel.id != null) {
-        _handleCheckout(context);
+        // _handleCheckout(context);
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
       key: _scaffoldKey,
       appBar: new AppBar(title: Text(appName)),
       body: new Container(
@@ -142,7 +160,7 @@ class _PaymentPage extends State<PaymentPage> {
                 new Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
+                  children: const <Widget>[
                     // new Expanded(
                     //   child: new TextFormField(
                     //     decoration: const InputDecoration(
@@ -217,17 +235,53 @@ class _PaymentPage extends State<PaymentPage> {
                                     Text(
                                       widget.serviceModel.service_title!,
                                       style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      nairaSign +
-                                          " " +
-                                          addCommer(widget
-                                              .serviceModel.service_price!),
-                                      style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 20),
                                     ),
+                                    Divider(),
+
+                                    Text(
+                                      "Select price",
+                                      style: TextStyle(),
+                                    ),
+
+                                    // Text(
+                                    //   nairaSign +
+                                    //       " " +
+                                    // addCommer(widget
+                                    //     .serviceModel.service_price!),
+                                    //   style: TextStyle(
+                                    //       fontWeight: FontWeight.bold,
+                                    //       fontSize: 20),
+                                    // ),
+
+                                    DropdownButton<String>(
+                                      isExpanded: true,
+                                      value: dropdownvalue,
+                                      items: <String>[
+                                        nairaSign +
+                                            addCommer(widget
+                                                .serviceModel.service_price!),
+                                        nairaSign +
+                                            addCommer(widget
+                                                .serviceModel.lower_price!)
+                                      ].map((String value) {
+                                        return DropdownMenuItem<String>(
+                                          alignment: Alignment.center,
+                                          value: value,
+                                          child: Text(
+                                            value,
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        );
+                                      }).toList(),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          dropdownvalue = value!;
+                                          setPrice(value);
+                                        });
+                                      },
+                                    )
                                   ],
                                 ),
 
@@ -244,6 +298,7 @@ class _PaymentPage extends State<PaymentPage> {
                                             decoration: InputDecoration(
                                                 labelText: "Enter your name"),
                                             controller: nameController,
+                                            // ignore: body_might_complete_normally_nullable
                                             validator: (value) {
                                               if (value!.length < 2) {
                                                 return "Name too short";
@@ -411,7 +466,7 @@ class _PaymentPage extends State<PaymentPage> {
       "username": userModel.username,
       "service_title": widget.serviceModel.service_title,
       "service_picture": widget.serviceModel.service_picture,
-      "service_price": widget.serviceModel.service_price,
+      "service_price": paidPrice,
       "order_date": formattedDate,
       "order_ref": reference,
       "order_status": "pending"

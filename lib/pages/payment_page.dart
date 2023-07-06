@@ -449,7 +449,7 @@ class _PaymentPage extends State<PaymentPage> {
       _updateStatus(response.reference, '$response');
     } catch (e) {
       setState(() => _inProgress = false);
-      _showMessage("Check console for error");
+      _showMessage("Check console for error   ");
       rethrow;
     }
   }

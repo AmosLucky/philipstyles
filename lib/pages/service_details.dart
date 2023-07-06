@@ -291,10 +291,10 @@ class _ServiceDetailsState extends State<ServiceDetails> {
 // <<<<<<< HEAD
 //     var androidUrl = "whatsapp://send?phone=$contact&text="+widget.serviceModel.service_title!;
 // =======
-    var androidUrl = "whatsapp://send?phone=$contact&text=I want to equire on: "+widget.serviceModel.service_title;
+    var androidUrl = "whatsapp://send?phone=$contact&text=I want to equire on: "+widget.serviceModel.service_title!;
 
     var iosUrl =
-        "https://wa.me/$contact?text=${Uri.parse('I want to equire on: '+widget.serviceModel.service_title)}";
+        "https://wa.me/$contact?text=${Uri.parse('I want to equire on: '+widget.serviceModel.service_title!)}";
 
     try {
       if (Platform.isIOS) {

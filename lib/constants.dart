@@ -21,7 +21,7 @@ var image_route = "https://philip.unlimitedsub.com/storage/images/";
 UserModel userModel = new UserModel();
 CompanyModel companyModel = new CompanyModel();
 
-var appVersion = 1.0;
+var appVersion = 1.00;
 var appLink =
     "https://play.google.com/store/apps/details?id=philipstyles_cleaning_service.com";
 var androidAppId = "philipstyles_cleaning_service.com";

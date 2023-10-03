@@ -13,10 +13,10 @@ var slogan = "... best cleaning service";
 var whitColor = Colors.white;
 var primaryColor = Colors.blue[600];
 var secondaryColor = Colors.greenAccent;
-var root_domain = "https://unlimitedsub.com/philipstyles/api/";
+var root_domain = "https://philipstyleservices.com/public/philipstyles/api/";
 
 //var root_domain = "http://192.168.43.95/web-projects/cleaners_app/api/";
-var image_route = "https://philip.unlimitedsub.com/storage/images/";
+var image_route = "https://philipstyleservices.com/storage/images/";
 //var image_route = "";
 UserModel userModel = new UserModel();
 CompanyModel companyModel = new CompanyModel();

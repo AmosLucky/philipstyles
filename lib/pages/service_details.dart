@@ -291,9 +291,9 @@ class _ServiceDetailsState extends State<ServiceDetails> {
 // <<<<<<< HEAD
 //     var androidUrl = "whatsapp://send?phone=$contact&text="+widget.serviceModel.service_title!;
 // =======
+var msg = "i want to book for your service:\n Title: ${widget.serviceModel.service_title!} \n Price : N${widget.serviceModel.lower_price!} to N${widget.serviceModel.service_price!} \n Category : ${widget.serviceModel.category!}";
     var androidUrl =
-        "whatsapp://send?phone=$contact&text=I want to equire on: " +
-            widget.serviceModel.service_title!;
+        "whatsapp://send?phone=$contact&text=${msg}";
 
     var iosUrl =
         "https://wa.me/$contact?text=${Uri.parse(widget.serviceModel.service_title!)}";

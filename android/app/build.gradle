@@ -51,9 +51,9 @@ android {
         
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "philipstyles_cleaning_service.com"
-        minSdkVersion 19
-        targetSdkVersion 31
-        versionCode flutterVersionCode.toInteger()
+        minSdkVersion 21
+        targetSdkVersion 33
+        versionCode 9
         versionName flutterVersionName
         multiDexEnabled true
     }
